@@ -55,6 +55,7 @@ export default {
     font-weight: 700;
     line-height: 62px; 
     margin-bottom: 13px;
+    letter-spacing: 2px;
 }
 
 .text{
@@ -62,7 +63,7 @@ export default {
     font-size: 18px;
     font-weight: 400;
     line-height: 30px; 
-    margin-bottom: 40px;
+    margin-bottom: 49px;
 }
 .article{
     position: absolute;
@@ -96,5 +97,58 @@ export default {
     font-size: 16px;
     font-weight: 500;
     line-height: 18px; 
+}
+
+.form-group.form-top{
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto 25px;
+    position: relative;
+}
+
+.form-group.form-top input{
+    padding: 25px 200px 30px 30px;
+}
+
+.form-group.form-top button{
+    position: absolute;
+    right: 17px;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding: 16px 32px 19px 32px;
+}
+
+.form-group.form-bottom {
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+}
+
+.form-group.form-bottom input[type='checkbox']{
+    display:none
+}
+
+.form-group.form-bottom label{
+    color: var(--neutral-600, #6F6C90);
+    font-size: 16px;
+    line-height: 23px; 
+}
+
+.form-group.form-bottom label span{
+    color: var(--primary-color-1, #4A3AFF);
+}
+
+.form-group.form-bottom .custom-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--primary-color-1, #4A3AFF);
+    transition: all .3s linear;
+}
+.form-group.form-bottom input:checked + .custom-checkbox{
+    background-color: var(--primary-color-1, #4A3AFF);
 }
 </style>

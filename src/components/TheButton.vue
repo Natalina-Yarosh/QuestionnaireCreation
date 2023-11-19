@@ -28,4 +28,16 @@ defineProps({
   line-height: 20px; 
   border: none;
 }
+
+.btn-white {
+  border-radius: 56px;
+  background: var(--neutral-100, #FFF);
+  box-shadow: 0px 3px 12px 0px rgba(20, 20, 43, 0.10);
+  color: var(--primary-color-1, #4A3AFF);
+}
+
+.btn-red {
+  background: var(--primary-accent, #FF2D46);
+  box-shadow: 0px 3px 12px 0px rgba(255, 45, 70, 0.18);
+}
 </style>
