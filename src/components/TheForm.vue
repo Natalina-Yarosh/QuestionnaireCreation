@@ -3,50 +3,165 @@
     <h2 class="main-form-title">Get a project quote</h2>
     <p class="main-form-text">Please fill the form below to receive a quote for your project. Feel free to add as much detail as needed.</p>
     
-    <div class="step" v-for="step in steps" :key="step.id">
-        <div class="main-form-body">
-            <div class="main-body-steps">
-                <div class="step-item">
-                    <p>1</p>
-                </div>
-                <div class="line"></div>
-                <div class="step-item">
-                    <p>2</p>
-                </div>
-                <div class="line"></div>
-                <div class="step-item">
-                    <p>3</p>
-                </div>
-                <div class="line"></div>
-                <div class="step-item">
-                    <p>4</p>
-                </div>
-            </div>
-            <h3 class="step-title">{{ step.title }}</h3>
-            <p class="step-text">{{ step.text }}</p>
-            <div class="inputs">
-                <div class="form-group" v-for="input in step.inputs" :key="input.id">
-                    <label :for="input.id">{{ input.label }}</label>
-                    <div class="form-group-body">
-                        <TheInput :id="input.id" :inputType="input.type" :inputPlaceholder="input.placeholder"/>
-                        <!-- <input :id="input.id" :type="input.type" :placeholder="input.placeholder"/> -->
-                        <div class="form-group-img">
-                            <img :src="input.imgPath" :alt="input.label">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="main-form-btns" v-for="btn in step.buttons" :key="btn">
-            <TheButton :textInfo="btn.textButton" class="left"/>
-        </div>
-    </div>
     <!-- <form class="form">
         <div class="form-group form-top">
             <TheInput :inputType="typeInput" :inputPlaceholder="placeholderInput"/>
             <TheButton :textInfo="textButton"/>
         </div>
     </form> -->
+    <!-- <button @click="showComponent('component-one')">Show component 1</button>
+    <button @click="showComponent('component-two')">Show component 2</button>
+    <component :is="selectedComponent"></component> -->
+
+    <form class="main-form">
+        <div class="step" v-if="currentStep === 1">
+            <div class="main-form-body">
+                <div class="main-body-steps">
+                    <div class="step-item active">
+                        <p>1</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step-item">
+                        <p>2</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step-item">
+                        <p>3</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step-item">
+                        <p>4</p>
+                    </div>
+                </div>
+                <h3 class="step-title">{{ stepOne.title }}</h3>
+                <p class="step-text">{{ stepOne.text }}</p>
+                <div class="inputs">
+                    <div class="form-group" v-for="input in stepOne.inputs" :key="input.id">
+                        <label :for="input.id">{{ input.label }}</label>
+                        <div class="form-group-body">
+                            <TheInput :id="input.id" :inputType="input.type" :inputPlaceholder="input.placeholder"/>
+                            <div class="form-group-img">
+                                <img :src="input.imgPath" :alt="input.label">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-form-btns">
+                <TheButton textInfo="Next step" class="left" @click="nextStep"/>
+            </div>
+        </div>
+        <div class="step" v-if="currentStep === 2">
+            <div class="main-form-body">
+                <div class="main-body-steps">
+                    <div class="step-item active">
+                        <p>1</p>
+                    </div>
+                    <div class="line done"></div>
+                    <div class="step-item active">
+                        <p>2</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step-item">
+                        <p>3</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step-item">
+                        <p>4</p>
+                    </div>
+                </div>
+                <h3 class="step-title">{{ stepTwo.title }}</h3>
+                <p class="step-text">{{ stepTwo.text }}</p>
+                <div class="inputs inputs-servises">
+                    <div class="form-group" v-for="input in stepTwo.inputs" :key="input.id">
+                        <TheInput :id="input.id" :inputType="input.type" name="servises"/>
+                        <div class="form-group-body">
+                            <label :for="input.id">
+                                <div class="form-group-img">
+                                    <img :src="input.imgPath" :alt="input.label">
+                                </div>
+                                {{ input.label }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-form-btns">
+                <TheButton textInfo="Previous step" class="right previous-btn" @click="previousStep"/>
+                <TheButton textInfo="Next step" class="left" @click="nextStep"/>
+            </div>
+        </div>
+        <div class="step" v-if="currentStep === 3">
+            <div class="main-form-body">
+                <div class="main-body-steps">
+                    <div class="step-item active">
+                        <p>1</p>
+                    </div>
+                    <div class="line done"></div>
+                    <div class="step-item active">
+                        <p>2</p>
+                    </div>
+                    <div class="line done"></div>
+                    <div class="step-item active">
+                        <p>3</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step-item">
+                        <p>4</p>
+                    </div>
+                </div>
+                <h3 class="step-title">{{ stepThree.title }}</h3>
+                <p class="step-text">{{ stepThree.text }}</p>
+                <div class="inputs inputs-budget">
+                    <div class="form-group" v-for="input in stepThree.inputs" :key="input.id">
+                        <TheInput :id="input.id" :inputType="input.type" />
+                        <div class="form-group-body">
+                            <label :for="input.id">
+                                <div class="input-radio-custom"></div>
+                                {{ input.label }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-form-btns">
+                <TheButton textInfo="Previous step" class="right previous-btn" @click="previousStep"/>
+                <TheButton textInfo="Next step" class="left" @click="nextStep"/>
+            </div>
+        </div>
+        <div class="step" v-if="currentStep === 4">
+            <div class="main-form-body">
+                <div class="main-body-steps">
+                    <div class="step-item active">
+                        <p>1</p>
+                    </div>
+                    <div class="line done"></div>
+                    <div class="step-item active">
+                        <p>2</p>
+                    </div>
+                    <div class="line done"></div>
+                    <div class="step-item active">
+                        <p>3</p>
+                    </div>
+                    <div class="line done"></div>
+                    <div class="step-item active">
+                        <p>4</p>
+                    </div>
+                </div>
+                <div class="main-form-submit">
+                    <div class="submit-svg">
+                        <img :src="stepSubmit.imgPath" :alt="stepSubmit.title">
+                    </div>
+                    <h3 class="step-title">{{ stepSubmit.title }}</h3>
+                    <p class="step-text">{{ stepSubmit.text }}</p>
+                    <TheButton textInfo="Submit" class="auto" type="submit"/>
+                </div>
+            </div>
+            <div class="main-form-btns">
+                <TheButton textInfo="Previous step" class="right previous-btn" @click="previousStep"/>
+            </div>
+        </div>
+    </form>
 
 </template>
 
@@ -58,50 +173,119 @@ export default {
     components: {TheButton, TheInput},
     data(){
       return{
-        steps:[
-            {
-                title: 'Contact details',
-                text:'Lorem ipsum dolor sit amet consectetur adipisc.',
-                inputs:[
-                    {
-                        id: 'userName',
-                        label: 'Name',
-                        type: 'text',
-                        placeholder: 'John Carter',
-                        imgPath: '/assets/theForm/1-0.svg',
-                    },
-                    {
-                        id: 'userEmail',
-                        label: 'Email ',
-                        type: 'email',
-                        placeholder: 'Email address',
-                        imgPath: '/assets/theForm/1-1.svg',
-                    },
-                    {
-                        id: 'userPhone',
-                        label: 'Phone Number',
-                        type: 'tel:(123) 456 - 7890',
-                        placeholder: '(123) 456 - 7890',
-                        imgPath: '/assets/theForm/1-2.svg',
-                    },
-                    {
-                        id: 'userCompany',
-                        label: 'Company',
-                        type: 'text',
-                        placeholder: 'Company name',
-                        imgPath: '/assets/theForm/1-3.svg',
-                    }
-                ],
-                buttons: [
-                    {
-                        textButton: 'Next step',
-                    }
-                ],
-                id: 'firstStep'
-            }
-        ],
+        currentStep: 1,
+        stepOne:{
+            title: 'Contact details',
+            text:'Lorem ipsum dolor sit amet consectetur adipisc.',
+            inputs:[
+                {
+                    id: 'userName',
+                    label: 'Name',
+                    type: 'text',
+                    placeholder: 'John Carter',
+                    imgPath: '/assets/theForm/1-0.svg',
+                },
+                {
+                    id: 'userEmail',
+                    label: 'Email ',
+                    type: 'email',
+                    placeholder: 'Email address',
+                    imgPath: '/assets/theForm/1-1.svg',
+                },
+                {
+                    id: 'userPhone',
+                    label: 'Phone Number',
+                    type: 'tel:(123) 456 - 7890',
+                    placeholder: '(123) 456 - 7890',
+                    imgPath: '/assets/theForm/1-2.svg',
+                },
+                {
+                    id: 'userCompany',
+                    label: 'Company',
+                    type: 'text',
+                    placeholder: 'Company name',
+                    imgPath: '/assets/theForm/1-3.svg',
+                }
+            ],
+            id: 'firstStep'
+        },
+        stepTwo:{
+            title: 'Our services',
+            text:'Please select which service you are interested in.',
+            inputs:[
+                {
+                    id: 'userDevelopment',
+                    label: 'Development',
+                    type: 'checkbox',
+                    imgPath: '/assets/theForm/2-0.svg',
+                },
+                {
+                    id: 'userWebDesign',
+                    label: 'Web Design ',
+                    type: 'checkbox',
+                    imgPath: '/assets/theForm/2-1.svg',
+                },
+                {
+                    id: 'userMarketing',
+                    label: 'Marketing',
+                    type: 'checkbox',
+                    imgPath: '/assets/theForm/2-2.svg',
+                },
+                {
+                    id: 'userOther',
+                    label: 'Other',
+                    type: 'checkbox',
+                    imgPath: '/assets/theForm/2-3.svg',
+                }
+            ],
+            id: 'secondStep'
+        },
+        stepThree:{
+            title: 'What’s your project budget?',
+            text:'Please select the project budget range you have in mind.',
+            inputs:[
+                {
+                    id: 'userFirstPrice',
+                    label: '$5.000 - $10.000',
+                    type: 'radio',
+                },
+                {
+                    id: 'userSecondPrice',
+                    label: '$10.000 - $20.000',
+                    type: 'radio',
+                },
+                {
+                    id: 'userThirdPrice',
+                    label: '$20.000 - $50.000',
+                    type: 'radio',
+                },
+                {
+                    id: 'userFourthPrice',
+                    label: '$50.000 +',
+                    type: 'radio',
+                }
+            ],
+            id: 'thirdStep'
+        },
+        stepSubmit:{
+            imgPath: '/assets/theForm/3.svg',
+            title: 'Submit your quote request',
+            text:'Please review all the information you previously typed in the past steps, and if all is okay, submit your message to receive a project quote in 24 - 48 hours.',
+            id: 'submitStep'
+        },
       }
-    }
+    },
+     methods:{
+        showComponent(cmp){
+            this.selectedComponent = cmp
+        },
+        nextStep() {
+            this.currentStep++;
+        },
+        previousStep(){
+            this.currentStep--;
+        }
+    } 
 }
 </script>
 
@@ -149,6 +333,27 @@ export default {
     align-items: center;
 }
 
+.step-item.active p{
+    background: var(--primary-color-1, #4A3AFF);
+    color: var(--neutral-100, #FFF);
+}
+
+.step-item.active + .line::before{
+    content: '';
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary-color-1, #4A3AFF);
+    border-radius: 40px;
+    transition: all .3s linear;
+}
+
+.line.done::before{
+    width: 100% !important;
+}
+
 .step-item p{
     width: 34px;
     height: 34px;
@@ -168,6 +373,7 @@ export default {
     width: 100%;
     border-radius: 40px;
     background: var(--neutral-300, #EFF0F6);
+    position: relative;
 }
 
 .step-title {
@@ -222,4 +428,75 @@ export default {
 .btn.left{
     margin-left: auto;
 }
+
+.inputs-servises .form-group-body label,
+.inputs-budget .form-group-body label{
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+    margin: 0;
+}
+
+.inputs-servises .form-group-body,
+.inputs-budget .form-group-body {
+    padding: 23px;
+    border: 2px solid transparent;
+    background: var(--neutral-100, #FFF);
+    box-shadow: 0px 4px 10px 0px rgba(31, 37, 89, 0.07), 0px 2px 11px 0px rgba(69, 65, 164, 0.06);
+    border-radius: 16px;
+}
+.inputs-servises .form-group-img{
+    border-radius: 50%;
+    position: relative;
+    right: 0;
+    top: 0;
+    transform: none;
+    width: 66px;
+    height: 66px;
+    background: rgba(74, 58, 255, .15);
+}
+
+.inputs-servises .form-group-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: none;
+}
+
+input[type='checkbox']:checked  + div,
+input[type='radio']:checked  + div{
+    border: 2px solid var(--primary-color-1, #4A3AFF);
+}
+
+.inputs.inputs-servises,
+.inputs.inputs-budget {
+    grid-column-gap: 28px;
+    grid-row-gap: 28px;
+}
+
+.input-radio-custom {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    box-shadow: 0px -3px 7px 0px rgba(20, 20, 43, 0.08) inset;
+    border: 1.2px solid var(--neutral-400, #D9DBE9);
+}
+
+input[type='radio']:checked  + div .input-radio-custom{
+    border: 8px solid var(--primary-color-1, #4A3AFF);
+}
+
+.main-form-submit{
+    text-align: center;
+}
+
+.submit-svg{
+    max-width: 154px;
+    margin: 0 auto 18px;
+}
+
+.submit-svg img{
+    width: 100%;
+    height: auto;
+}
+
 </style>

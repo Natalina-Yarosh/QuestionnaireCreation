@@ -40,4 +40,13 @@ defineProps({
   background: var(--primary-accent, #FF2D46);
   box-shadow: 0px 3px 12px 0px rgba(255, 45, 70, 0.18);
 }
+
+.previous-btn{
+  border-radius: 66px;
+  border: 1px solid var(--primary-color-1, #4A3AFF);
+  color: var(--primary-color-1, #4A3AFF);
+  background: transparent;
+  font-weight: 400;
+  box-shadow: none;
+}
 </style>
