@@ -1,19 +1,7 @@
 <template>
-   
     <h2 class="main-form-title">Get a project quote</h2>
     <p class="main-form-text">Please fill the form below to receive a quote for your project. Feel free to add as much detail as needed.</p>
-    
-    <!-- <form class="form">
-        <div class="form-group form-top">
-            <TheInput :inputType="typeInput" :inputPlaceholder="placeholderInput"/>
-            <TheButton :textInfo="textButton"/>
-        </div>
-    </form> -->
-    <!-- <button @click="showComponent('component-one')">Show component 1</button>
-    <button @click="showComponent('component-two')">Show component 2</button>
-    <component :is="selectedComponent"></component> -->
-
-    <form class="main-form">
+    <form class="main-form" @submit.prevent="submitForm">
         <div class="step" v-if="currentStep === 1">
             <div class="main-form-body">
                 <div class="main-body-steps">
@@ -39,7 +27,7 @@
                     <div class="form-group" v-for="input in stepOne.inputs" :key="input.id">
                         <label :for="input.id">{{ input.label }}</label>
                         <div class="form-group-body">
-                            <TheInput :id="input.id" :inputType="input.type" :inputPlaceholder="input.placeholder"/>
+                                <TheInput :currentStep="currentStep"  :id="input.id" :inputType="input.type" :inputPlaceholder="input.placeholder" @updateOne="handleStepOneUpdate" />
                             <div class="form-group-img">
                                 <img :src="input.imgPath" :alt="input.label">
                             </div>
@@ -74,7 +62,7 @@
                 <p class="step-text">{{ stepTwo.text }}</p>
                 <div class="inputs inputs-servises">
                     <div class="form-group" v-for="input in stepTwo.inputs" :key="input.id">
-                        <TheInput :id="input.id" :inputType="input.type" name="servises"/>
+                        <TheInput :currentStep="currentStep" :id="input.id" :inputType="input.type" @updateTwo="handleStepTwoUpdate" />
                         <div class="form-group-body">
                             <label :for="input.id">
                                 <div class="form-group-img">
@@ -114,7 +102,7 @@
                 <p class="step-text">{{ stepThree.text }}</p>
                 <div class="inputs inputs-budget">
                     <div class="form-group" v-for="input in stepThree.inputs" :key="input.id">
-                        <TheInput :id="input.id" :inputType="input.type" />
+                        <TheInput  :currentStep="currentStep" :id="input.id" :inputType="input.type" @updateThree="handleStepThreeUpdate"/>
                         <div class="form-group-body">
                             <label :for="input.id">
                                 <div class="input-radio-custom"></div>
@@ -160,9 +148,8 @@
             <div class="main-form-btns">
                 <TheButton textInfo="Previous step" class="right previous-btn" @click="previousStep"/>
             </div>
-        </div>
+        </div> 
     </form>
-
 </template>
 
 <script>
@@ -174,6 +161,26 @@ export default {
     data(){
       return{
         currentStep: 1,
+        formData:{
+            stepOne: {
+                userName: '',
+                userEmail: '',
+                userPhone: '',
+                userCompany:''
+            },
+            stepTwo: {
+                userDevelopment: false,
+                userWebDesign: false,
+                userMarketing: false,
+                userOther: false
+            },
+            stepThree:{
+                userFirstPrice: false,
+                userSecondPrice: false,
+                userThirdPrice : false, 
+                userFourthPrice: false
+            }
+        },
         stepOne:{
             title: 'Contact details',
             text:'Lorem ipsum dolor sit amet consectetur adipisc.',
@@ -276,15 +283,24 @@ export default {
       }
     },
      methods:{
-        showComponent(cmp){
-            this.selectedComponent = cmp
-        },
         nextStep() {
             this.currentStep++;
         },
         previousStep(){
             this.currentStep--;
-        }
+        },
+        submitForm() {
+            localStorage.setItem('formData', JSON.stringify(this.formData));
+        },
+        handleStepOneUpdate(updatedValue) {
+            this.formData.stepOne = { ...this.formData.stepOne, ...updatedValue };
+        },
+        handleStepTwoUpdate(updatedValue) {
+            this.formData.stepTwo = { ...this.formData.stepTwo, ...updatedValue };
+        },
+        handleStepThreeUpdate(updatedValue) {
+            this.formData.stepThree = { ...this.formData.stepThree, ...updatedValue };
+        },
     } 
 }
 </script>
@@ -347,7 +363,10 @@ export default {
     top: 0;
     background: var(--primary-color-1, #4A3AFF);
     border-radius: 40px;
-    transition: all .3s linear;
+}
+
+.line::before{
+    transition:  all .3s linear;
 }
 
 .line.done::before{
@@ -366,6 +385,7 @@ export default {
     font-size: 16px;
     font-weight: 400;
     line-height: 1;
+    transition: all .3s linear;
 }
 
 .line {
@@ -429,6 +449,13 @@ export default {
     margin-left: auto;
 }
 
+.form-group-body label{ 
+    transition: border .3s linear;
+}
+
+.inputs-servises .form-group-body label:hover{
+    border: 2px solid var(--primary-color-1, #4A3AFF);
+}
 .inputs-servises .form-group-body label,
 .inputs-budget .form-group-body label{
     display: flex;
@@ -437,8 +464,8 @@ export default {
     margin: 0;
 }
 
-.inputs-servises .form-group-body,
-.inputs-budget .form-group-body {
+.inputs-servises .form-group-body label,
+.inputs-budget .form-group-body label{
     padding: 23px;
     border: 2px solid transparent;
     background: var(--neutral-100, #FFF);
@@ -462,8 +489,8 @@ export default {
     object-fit: none;
 }
 
-input[type='checkbox']:checked  + div,
-input[type='radio']:checked  + div{
+input[type='checkbox']:checked  + div label,
+input[type='radio']:checked  + div label{
     border: 2px solid var(--primary-color-1, #4A3AFF);
 }
 
@@ -497,6 +524,73 @@ input[type='radio']:checked  + div .input-radio-custom{
 .submit-svg img{
     width: 100%;
     height: auto;
+}
+
+@media(max-width:767px){
+    .main-form-title{
+        font-size: 28px;
+        line-height: 35px;
+        letter-spacing: 0;
+    }
+    .main-form-text[data-v-9bb7623f] {
+        max-width: 100%;
+        font-size: 16px;
+        line-height: 24px;
+    }
+    .main-form-body{
+        padding: 30px 20px;
+    }
+    .main-body-steps{
+        column-gap: 10px;
+        padding: 0 0 29px;
+        margin-bottom: 25px;
+    }
+    .step-item p{
+        width: 31px;
+        height: 31px;
+    }
+    .step-title {
+        font-size: 20px;
+        line-height: 25px;
+    }
+    .step-text{
+        font-size: 16px;
+        line-height: 22px;
+        margin-bottom: 30px;
+    }
+
+    .inputs,
+    .inputs.inputs-servises{
+        grid-template-columns: 1fr;
+        grid-row-gap: 25px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+        line-height: 16px;
+        margin-bottom: 15px;
+    }
+    .main-form-btns{
+        flex-wrap: wrap;
+        row-gap: 15px;
+    }
+    .inputs-servises .form-group-body label, .inputs-budget .form-group-body label{
+        margin: 0;
+    }
+    .inputs-servises .form-group-img {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .inputs-servises .form-group-img img {
+        width: 50%;
+        height: 50%;
+    }
+    .submit-svg{
+        max-width: 120px;
+    }
 }
 
 </style>
