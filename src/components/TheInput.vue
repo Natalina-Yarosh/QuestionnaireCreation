@@ -59,7 +59,7 @@ input:hover{
 
 .inputs-servises input,
 .inputs-budget input{
-    /* display: none; */
+    display: none;
 }
 
 @media(max-width:767px){
