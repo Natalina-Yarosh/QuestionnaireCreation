@@ -18,7 +18,7 @@ export default {
   padding: 127px 0;
   background: var(--neutral-200, #F7F7FB);
   min-height: 100vh;
-  display: grid;
+  display: flex;
   align-items: center;
   justify-content: center;
 }

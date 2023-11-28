@@ -1,31 +1,20 @@
 <template>
-    <keep-alive>
-        <input v-if="currentStep === 1" :type="inputType" :id="id" :placeholder="inputPlaceholder" v-model="inputValue"  @change="handleStepOneUpdate">
-    </keep-alive>
-        <input v-if="currentStep === 2" :type="inputType" :id="id" name="servises" v-model="inputValue"  @change="handleStepTwoUpdate">
-        <input v-if="currentStep === 3" :type="inputType" :id="id" name="budget"  v-model="inputValue"  @change="handleStepThreeUpdate">
-    
+     <input :type="inputType" :id="id" :name="name" :placeholder="inputPlaceholder"  v-model="inputValue"  @change="handleUpdateForm"> 
 </template>
 
 <script>
 export default {
-    props: ['id', 'inputType', 'inputPlaceholder', 'currentStep'],
-    emits: ['updateOne', 'updateTwo', 'updateThree'],
+    props: ['id', 'inputType', 'inputPlaceholder', 'currentStep', 'name'],
+    emits: ['updateForm'],
     data() {
         return {
             inputValue: ''
         };
     },
     methods: {
-        handleStepOneUpdate() {
-            this.$emit('updateOne', { [this.id]: this.inputValue });
-        },
-        handleStepTwoUpdate() {
-            this.$emit('updateTwo', { [this.id]: this.inputValue });
-        },
-        handleStepThreeUpdate() {
-            this.$emit('updateThree', { [this.id]: this.inputValue });
-        },
+        handleUpdateForm() {
+            this.$emit('updateForm', { [this.id]: this.inputValue });
+        }
     }
 };
 </script>
@@ -70,7 +59,7 @@ input:hover{
 
 .inputs-servises input,
 .inputs-budget input{
-    display: none;
+    /* display: none; */
 }
 
 @media(max-width:767px){
