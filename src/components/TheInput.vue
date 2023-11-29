@@ -1,3 +1,28 @@
+<script setup>
+    defineProps({
+        id: {
+            type: String,
+            required: true
+        },
+        inputType: {
+            type: String,
+            required: true
+        },
+        inputPlaceholder: {
+            type: String,
+            required: false
+        },
+        currentStep: {
+            type: Number,
+            required: true
+        },
+        name: {
+            type: String,
+            required: false
+        },
+    })
+</script>
+
 <template>
      <input :type="inputType" :id="id" :name="name" :placeholder="inputPlaceholder"  v-model="inputValue"  @change="handleUpdateForm"> 
 </template>

@@ -1,3 +1,12 @@
+<script setup>
+    defineProps({
+        currentStep: {
+            type: Number,
+            required: true
+        }
+    })
+</script>
+
 <template>
      <div class="step">
             <div class="main-form-body">
@@ -29,7 +38,6 @@ import TheInput from './TheInput.vue';
 
 export default {
     components: {TheStep, TheButton, TheInput},
-    props: ['currentStep'],
     data(){
         return{
             stepOne:{

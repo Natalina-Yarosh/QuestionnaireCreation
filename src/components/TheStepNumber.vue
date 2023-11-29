@@ -1,8 +1,12 @@
-<script>
-export default {
-    props: ['currentStep'],
-};
+<script setup>
+    defineProps({
+        currentStep: {
+            type: Number,
+            required: true
+        }
+    })
 </script>
+
 <template>
      <div class="main-body-steps">
         <div class="step-item active">

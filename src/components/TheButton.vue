@@ -1,10 +1,10 @@
 <script setup>
-defineProps({
-    textInfo: {
-        type: String,
-        required: true
-    }
-})
+    defineProps({
+        textInfo: {
+            type: String,
+            required: true
+        }
+    })
 </script>
 
 <template>
